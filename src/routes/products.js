@@ -1,16 +1,15 @@
 import { request, response, Router } from "express";
 import {v4 as uuidv4 } from 'uuid';
-import router from "./cart";
 
-const router = Router();
+const routerProduct = Router();
 
-let products = []; //aqui almaceno
+let products = []; //aqui almaceno, lista de productos
 
-router.get( '/products' , (request, response) => { // obtener recursos (products)
+routerProduct.get( '/products' , (request, response) => { // obtener recursos (products)
     response.json(products)
 })
 
-router.get( '/products/:id' , (request, response) => {
+routerProduct.get( '/products/:id' , (request, response) => {
     const productoId = request.params.id;
     const producto = products.find( producto => producto.id === productoId)
 
@@ -20,7 +19,7 @@ router.get( '/products/:id' , (request, response) => {
     response.json(producto);
 })
 
-router.post( '/products' , (request, response) => {
+routerProduct.post( '/products' , (request, response) => {
     const {title, description, code, price, category} = request.body;
     if(!title || !description || !code || !price || !category){
         return response.status(400).json({error : 'Datos invalidos'});
@@ -39,7 +38,7 @@ router.post( '/products' , (request, response) => {
     response.status(201).json(nuevoProducto);
 })
 
-router.put( '/products/:id' , (request, response) => {
+routerProduct.put( '/products/:id' , (request, response) => {
     const productoIdBuscado = request.params.id;
     const {title, description, code, price, category} = request.body;
     const productoIndex = products.findIndex(producto => producto.id === productoIdBuscado)
@@ -63,7 +62,7 @@ router.put( '/products/:id' , (request, response) => {
     response.json(products[productoIndex]);
 })
 
-router.delete( '/products/:id' , (request, response) => {
+routerProduct.delete( '/products/:id' , (request, response) => {
     const productoIdDeleted = request.params.id;
     const productoIndex = products.findIndex(producto => producto.id === productoIdDeleted);
 
@@ -72,7 +71,7 @@ router.delete( '/products/:id' , (request, response) => {
     }
 
     products.splice(productoIndex, 1);
-    response.status(204).json({mensaje: 'Producto eliminado'})
+    response.status(204).json({mensaje: 'Producto eliminado'});
 })
 
-export default router
+export default routerProduct

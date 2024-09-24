@@ -1,15 +1,15 @@
 import { request, response, Router } from "express";
 import {v4 as uuidv4 } from 'uuid';
 
-const router = Router();
+const routerCart = Router();
 
 let cart = [];
 
-router.get( '/cart' , (request, response) => { // obtener recursos (products)
+routerCart.get( '/cart' , (request, response) => { // obtener recursos (carro)
     response.json(cart)
 })
 
-router.post( '/cart' , (request, response) => {
+routerCart.post( '/cart' , (request, response) => {
     const {title, description, code, price, category} = request.body;
     if(!title || !description || !code || !price || !category){
         return response.status(400).json({error : 'Datos invalidos'});
@@ -28,4 +28,4 @@ router.post( '/cart' , (request, response) => {
     response.status(201).json(nuevoProducto);
 })
 
-export default router
+export default routerCart
